@@ -4,6 +4,7 @@ import './index.css';
 import Card from './Card';
 import * as serviceWorker from './serviceWorker';
 import "tachyons";
+//import Image from 'react-bootstrap/Image';
 import { car } from "./car";
 
 ReactDOM.render(
