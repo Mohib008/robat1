@@ -1,18 +1,15 @@
 import React from "react";
 import Card from "./Card";
 
-
-const CardList = ({ car }) => {
+const cardList = ({ car }) => {
+const cardComponent = car.map((user, i) => {
+    return <Card key={i} id={car[i].id} name={car[i].name} email={car[i].email} />
+})
     return (
         <div>
-        { car.map((user, i) => {
-            return (
-                <Card key={i} id={car[i].id} name={car[i].name} email={car[i].email} />
-            );
-         }) 
-        }
-     </div>
+         { cardComponent}
+        </div>
     );
 }
 
-export default CardList;
+export default cardList;
