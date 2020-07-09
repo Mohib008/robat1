@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CardList from "./CardList";
 import SearchBox from "./SearchBox";
-import { car } from "./car";
 import "./App.css";
 
 
@@ -9,9 +8,15 @@ class App extends Component {
     constructor(){
         super()
         this.state = {
-            car: car,
+            car: [],
             searchfield: ""
         }
+    }
+
+    componentDidMount() {
+        fetch("https://jsonplaceholder.typicode.com/users")
+        .then(response=> response.json())
+        .then(users => this.setState({ car: users}));
     }
 
     onSearchChange = (event) => {
