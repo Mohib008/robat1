@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CardList from "./CardList";
 import SearchBox from "./SearchBox";
 import "./App.css";
+import Scroll from "./Scroll";
 
 
 class App extends Component {
@@ -28,13 +29,19 @@ class App extends Component {
             return car.name.toLocaleLowerCase().includes(this.state.searchfield.toLocaleLowerCase())
         });
 
-        return (
-            <div className="tc">
-                <h1 className="f1">Cars & Robots!</h1>
-                <SearchBox searchChange={this.onSearchChange}/>
-                <CardList car = { filteredCar } />
-            </div>
-        );
+        if (this.state.car.length === 0) {
+            return <h1>Loading!</h1>
+        } else {
+            return (
+                <div className="tc">
+                    <h1 className="f1">Cars & Robots!</h1>
+                    <SearchBox searchChange={this.onSearchChange}/>
+                    <Scroll>
+                    <CardList car = { filteredCar } />
+                    </Scroll>
+                </div>
+            );
+        }
     }
 }
 
