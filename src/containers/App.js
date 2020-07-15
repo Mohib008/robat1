@@ -25,14 +25,14 @@ class App extends Component {
     }
 
     render() {
-        const filteredCar = this.state.car.filter(car => {
-            return car.name.toLocaleLowerCase().includes(this.state.searchfield.toLocaleLowerCase())
+        const { car, searchfield } = this.state;
+        const filteredCar = car.filter(car => {
+            return car.name.toLocaleLowerCase().includes(searchfield.toLocaleLowerCase())
         });
 
-        if (this.state.car.length === 0) {
-            return <h1>Loading!</h1>
-        } else {
-            return (
+        return !car.length ?
+           <h1>Loading!</h1>:
+           (
                 <div className="tc">
                     <h1 className="f1">Cars & Robots!</h1>
                     <SearchBox searchChange={this.onSearchChange}/>
@@ -42,7 +42,6 @@ class App extends Component {
                 </div>
             );
         }
-    }
 }
 
 export default App;
