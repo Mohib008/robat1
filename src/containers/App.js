@@ -1,16 +1,29 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import CardList from "../components/cardList";
 import SearchBox from "../components/SearchBox";
-import "./App.css";
-import Scroll from "../components/Scroll";
 
+import Scroll from "../components/Scroll";
+import "./App.css";
+
+import { setSearchField } from "../action";
+
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchField
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return{
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+    }
+}
 
 class App extends Component {
     constructor(){
         super()
         this.state = {
-            car: [],
-            searchfield: ""
+            car: []
         }
     }
 
@@ -20,14 +33,11 @@ class App extends Component {
         .then(users => this.setState({ car: users}));
     }
 
-    onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value });
-    }
-
     render() {
-        const { car, searchfield } = this.state;
+        const { car } = this.state;
+        const { searchField, onSearchChange } = this.props;
         const filteredCar = car.filter(car => {
-            return car.name.toLocaleLowerCase().includes(searchfield.toLocaleLowerCase())
+            return car.name.toLocaleLowerCase().includes(searchField.toLocaleLowerCase())
         });
 
         return !car.length ?
@@ -35,7 +45,7 @@ class App extends Component {
            (
                 <div className="tc">
                     <h1 className="f1">Cars & Robots!</h1>
-                    <SearchBox searchChange={this.onSearchChange}/>
+                    <SearchBox searchChange={onSearchChange}/>
                     <Scroll>
                     <CardList car = { filteredCar } />
                     </Scroll>
@@ -44,4 +54,4 @@ class App extends Component {
         }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
