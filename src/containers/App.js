@@ -6,41 +6,35 @@ import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
 import "./App.css";
 
-import { setSearchField } from "../action";
+import { setSearchField, requestCar } from "../action";
 
 const mapStateToProps = state => {
     return {
-        searchField: state.searchField
+        searchField: state.searchCar.searchField,
+        car: state.requestCar.car,
+        isPinding: state.requestCar.isPinding,
+        error: state.requestCar.error
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return{
-        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestCar: () => dispatch(requestCar())
     }
 }
 
 class App extends Component {
-    constructor(){
-        super()
-        this.state = {
-            car: []
-        }
-    }
-
     componentDidMount() {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(response=> response.json())
-        .then(users => this.setState({ car: users}));
+        this.props.onRequestCar();
     }
 
     render() {
-        const { car } = this.state;
-        const { searchField, onSearchChange } = this.props;
+        const { searchField, onSearchChange, car, isPinding } = this.props;
         const filteredCar = car.filter(car => {
             return car.name.toLocaleLowerCase().includes(searchField.toLocaleLowerCase())
         });
 
-        return !car.length ?
+        return isPinding ?
            <h1>Loading!</h1>:
            (
                 <div className="tc">
